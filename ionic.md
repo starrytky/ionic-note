@@ -13,7 +13,7 @@ light default secondary dark danger
 <button ion-button>按钮</button>
 ```
 在`ion-button`内放图标
->使用ion-button同级属性 `icon-left` `ion-right` `icon-only` `clear`
+>使用ion-button同级属性 `icon-left` `icon-right` `icon-only` `clear`
 
 ion-icon 组件使用
 ```html
@@ -82,6 +82,7 @@ color使用上面提到的的颜色如:dark light secondary danger default
 ```
 
 ### 表格 ion-input
+> fixed (input)placeholder floating (none)inline (list->inset)inset  stacked 
 ```html
 <!-- 第一组 -->
 <ion-list>
@@ -107,9 +108,53 @@ color使用上面提到的的颜色如:dark light secondary danger default
         </ion-input>
     </ion-item>
 </ion-list>
+<!-- 第三组 -->
+<ion-list>
+  <ion-item>
+    <ion-label floating>Username</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label floating>Password</ion-label>
+    <ion-input type="password" value=""></ion-input>
+  </ion-item>
+</ion-list>
+<!-- 第四组 -->
+<ion-list>
+  <ion-item>
+    <ion-label >Username</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label >Password</ion-label>
+    <ion-input type="password" value=""></ion-input>
+  </ion-item>
+</ion-list>
+<!-- 第五组 -->
+<ion-list inset>
+  <ion-item>
+    <ion-label >Username</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label >Password</ion-label>
+    <ion-input type="password" value=""></ion-input>
+  </ion-item>
+</ion-list>
+<!-- 第六组 -->
+<ion-list>
+  <ion-item>
+    <ion-label stacked>Username</ion-label>
+    <ion-input type="text" value=""></ion-input>
+  </ion-item>
+  <ion-item>
+    <ion-label stacked>Password</ion-label>
+    <ion-input type="password" value=""></ion-input>
+  </ion-item>
+</ion-list>
 ```
 
-### 栅格系统 grid
+### 栅格系统 ion-grid
 ```html
 <ion-grid>
     <ion-row>
@@ -121,6 +166,14 @@ color使用上面提到的的颜色如:dark light secondary danger default
     </ion-row>
 <ion-grid>
 ```
+
+### 内容  ion-content
+> page与component中自动生成,样式最小高度为屏幕高度，多个page会堆叠删掉
+```html
+<ion-content></ion-content>
+```
+
+
 
 ## 生命周期
 ```typescript
@@ -266,4 +319,47 @@ import { PipesModule } from '../pipes/pipes.module';
 {{ text | memuPipe }}
 ```
 
+## page
+1、创建页面
+```ts
+// 带module的页面
+ionic g page new-page
+// 子页面,不带module且到指定目录下创建
+ionic g page add-new-page --pagesDir src/pages/new-page --no-module
+ionic g page del-new-page --pagesDir src/pages/new-page --no-module
+ionic g page edit-new-page --pagesDir src/pages/new-page --no-module
+```
+2、导出page到new-page.module.ts
+```ts
+import { NgModule } from '@angular/core';
+import { IonicModule } from 'ionic-angular'; // ionic组件
+import { BrowserModule } from '@angular/platform-browser'; // ng指令
+import { WorkOrderPage } from './work-order'; // 自身页面及各个子页面
+import { AddWorkOrderPage } from './add-work-order/add-work-order';
+import { DelWorkOrderPage } from './del-work-order/del-work-order';
+import { EditWorkOrderPage } from './edit-work-order/edit-work-order';
 
+@NgModule({
+  declarations: [
+    WorkOrderPage,
+    AddWorkOrderPage,
+    DelWorkOrderPage,
+    EditWorkOrderPage
+  ],
+  entryComponents: [
+    WorkOrderPage,
+    AddWorkOrderPage,
+    DelWorkOrderPage,
+    EditWorkOrderPage
+  ],
+  imports: [
+    IonicModule,
+    BrowserModule
+  ],
+})
+export class WorkOrderPageModule {} //导出到app.module.ts
+```
+3、在app.module.ts中引入WorkOrderPageModule
+```ts
+import { WorkOrderPageModule } from '../pages/work-order/work-order.module';
+```
